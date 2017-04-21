@@ -3,6 +3,9 @@ using System.Diagnostics;
 
 namespace BluetoothLocker
 {
+    /// <summary>
+    /// Wrapper for BluetoothDeviceInfor for combobox control
+    /// </summary>
     internal class DeviceItem
     {
         internal DeviceItem(BluetoothDeviceInfo info)
@@ -18,7 +21,7 @@ namespace BluetoothLocker
         }
 
         /// <summary>
-        /// This override is needed displaying device names in ComboBox
+        /// This override is needed for displaying device names in ComboBox
         /// </summary>
         /// <returns></returns>
         public override string ToString()

@@ -43,7 +43,7 @@
             this.discoverBtn.TabIndex = 0;
             this.discoverBtn.Text = "Discover";
             this.discoverBtn.UseVisualStyleBackColor = true;
-            this.discoverBtn.Click += new System.EventHandler(this.discover_Click);
+            this.discoverBtn.Click += new System.EventHandler(this.discoverBtn_Click);
             // 
             // devicesDropDown
             // 

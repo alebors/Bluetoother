@@ -9,7 +9,7 @@ namespace BluetoothLocker
     {
         #region Private members
 
-        private readonly string _aesPass = AesCipher.GenerateRandomKey();
+        private readonly string _aesRandomKey = AesCipher.GenerateRandomKey();
         private string _userNameEncrypted;
         private string _userPassEncrypted;
         private bool _secured = false;
@@ -78,7 +78,7 @@ namespace BluetoothLocker
 
         private bool ValidateCredentials(string name, string password)
         {
-            return AesCipher.EncryptText(name, _aesPass) == _userNameEncrypted && AesCipher.EncryptText(password, _aesPass) == _userPassEncrypted && DevicesConnector.IsDeviceInRange(SelectedDevice);
+            return AesCipher.EncryptText(name, _aesRandomKey) == _userNameEncrypted && AesCipher.EncryptText(password, _aesRandomKey) == _userPassEncrypted && DevicesConnector.IsDeviceInRange(SelectedDevice);
         }
 
         #endregion
@@ -115,7 +115,7 @@ namespace BluetoothLocker
             }
         }
 
-        private void discover_Click(object sender, EventArgs e)
+        private void discoverBtn_Click(object sender, EventArgs e)
         {
             discoverBtn.Enabled = false;
             devicesDropDown.Enabled = false;
@@ -132,6 +132,11 @@ namespace BluetoothLocker
                 StopSecurity();
         }
 
+        private void exitBtn_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
         private void BluetootherForm_Shown(object sender, EventArgs e)
         {
             var cf = new CredentialsForm(true);
@@ -142,13 +147,8 @@ namespace BluetoothLocker
                 return;
             }
 
-            _userNameEncrypted = AesCipher.EncryptText(cf.UserName, _aesPass);
-            _userPassEncrypted = AesCipher.EncryptText(cf.UserPassword, _aesPass);
-        }
-
-        private void exitBtn_Click(object sender, EventArgs e)
-        {
-            Close();
+            _userNameEncrypted = AesCipher.EncryptText(cf.UserName, _aesRandomKey);
+            _userPassEncrypted = AesCipher.EncryptText(cf.UserPassword, _aesRandomKey);
         }
 
         private void devicesDropDown_SelectedIndexChanged(object sender, EventArgs e)

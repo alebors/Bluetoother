@@ -9,7 +9,7 @@ using System.Threading;
 namespace BluetoothLocker
 {
     /// <summary>
-    /// Asynchronously discovers devices in range, check selected device presence
+    /// Asynchronously discovers devices in range, checks selected device presence
     /// </summary>
     internal class DevicesConnector
     {
