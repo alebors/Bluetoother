@@ -37,7 +37,22 @@ namespace BluetoothLocker
 
         private void okBtn_Click(object sender, EventArgs e)
         {
-            Close();
+            Cursor.Current = Cursors.WaitCursor;
+            try
+            {
+                if (_validateFunc != null && !_validateFunc(UserName, UserPassword))
+                {
+                    MessageBox.Show(Messages.IncorrectCredentials_text, Messages.IncorrectCredentials_title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                DialogResult = DialogResult.OK;
+                Close();
+            }
+            finally
+            {
+                Cursor.Current = Cursors.Default;
+            }
         }
 
         private void cancelBtn_Click(object sender, EventArgs e)
@@ -78,15 +93,9 @@ namespace BluetoothLocker
             if (e.CloseReason != CloseReason.UserClosing)
                 return;
 
-            //don't allow to close the form if credentials are not valid or user tries to close locking form
-
+            //don't allow to close the form if user tries to close it using for example Alt+F4
             if (!cancelBtn.Visible && DialogResult != System.Windows.Forms.DialogResult.OK)
                 e.Cancel = true;
-            else if (DialogResult == System.Windows.Forms.DialogResult.OK && _validateFunc != null && !_validateFunc(UserName, UserPassword))
-                e.Cancel = true;
-
-            if (DialogResult == DialogResult.OK && e.Cancel)
-                MessageBox.Show(Messages.IncorrectCredentials_text, Messages.IncorrectCredentials_title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
     }
 }

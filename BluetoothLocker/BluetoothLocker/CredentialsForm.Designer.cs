@@ -41,7 +41,6 @@
             // okBtn
             // 
             this.okBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.okBtn.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.okBtn.Enabled = false;
             this.okBtn.Location = new System.Drawing.Point(104, 95);
             this.okBtn.Name = "okBtn";
