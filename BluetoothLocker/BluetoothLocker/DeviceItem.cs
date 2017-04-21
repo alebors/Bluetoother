@@ -7,6 +7,7 @@ namespace BluetoothLocker
     {
         internal DeviceItem(BluetoothDeviceInfo info)
         {
+            Debug.Assert(info != null, "BluetoothDeviceInfo must not be null");
             Info = info;
         }
 
@@ -22,7 +23,6 @@ namespace BluetoothLocker
         /// <returns></returns>
         public override string ToString()
         {
-            Debug.Assert(Info != null, "BluetoothDeviceInfo must not be null");
             return Info.DeviceName;
         }
     }
