@@ -51,7 +51,10 @@ namespace BluetoothLocker
             confirmTxt.Visible = _isConfirmMode;
             cancelBtn.Visible = _isConfirmMode;
             if (!_isConfirmMode)
+            {
                 Height -= confirmTxt.Height + confirmTxt.Margin.Top;
+                okBtn.Left = cancelBtn.Left;
+            }
         }
 
         private void passwordText_Changed(object sender, EventArgs e)
