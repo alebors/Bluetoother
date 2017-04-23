@@ -184,7 +184,8 @@ namespace BluetoothLocker
 
         private void BluetootherForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            _pwdStorage.Dispose();
+            if (_pwdStorage is IDisposable)
+                (_pwdStorage as IDisposable).Dispose();
         }
     }
 }

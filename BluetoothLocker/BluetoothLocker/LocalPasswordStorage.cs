@@ -12,10 +12,5 @@ namespace BluetoothLocker
 
         public RSAParameters PrivateKey { get; set; }
         public RSAParameters PublicKey { get; set; }
-
-        public void Dispose()
-        {
-            //do nothing
-        }
     }
 }
