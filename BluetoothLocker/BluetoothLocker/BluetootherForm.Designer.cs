@@ -33,6 +33,7 @@
             this.startStopBtn = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.exitBtn = new System.Windows.Forms.Button();
+            this.showInfoBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // discoverBtn
@@ -77,7 +78,7 @@
             // 
             // exitBtn
             // 
-            this.exitBtn.Location = new System.Drawing.Point(242, 83);
+            this.exitBtn.Location = new System.Drawing.Point(242, 112);
             this.exitBtn.Name = "exitBtn";
             this.exitBtn.Size = new System.Drawing.Size(75, 23);
             this.exitBtn.TabIndex = 5;
@@ -85,11 +86,22 @@
             this.exitBtn.UseVisualStyleBackColor = true;
             this.exitBtn.Click += new System.EventHandler(this.exitBtn_Click);
             // 
+            // showInfoBtn
+            // 
+            this.showInfoBtn.Location = new System.Drawing.Point(12, 112);
+            this.showInfoBtn.Name = "showInfoBtn";
+            this.showInfoBtn.Size = new System.Drawing.Size(219, 23);
+            this.showInfoBtn.TabIndex = 6;
+            this.showInfoBtn.Text = "Show Encryption Info";
+            this.showInfoBtn.UseVisualStyleBackColor = true;
+            this.showInfoBtn.Click += new System.EventHandler(this.showInfoBtn_Click);
+            // 
             // BluetootherForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(329, 121);
+            this.ClientSize = new System.Drawing.Size(329, 145);
+            this.Controls.Add(this.showInfoBtn);
             this.Controls.Add(this.exitBtn);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.startStopBtn);
@@ -100,6 +112,7 @@
             this.Name = "BluetootherForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Bluetoother";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.BluetootherForm_FormClosed);
             this.Shown += new System.EventHandler(this.BluetootherForm_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -113,6 +126,7 @@
         private System.Windows.Forms.Button startStopBtn;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button exitBtn;
+        private System.Windows.Forms.Button showInfoBtn;
     }
 }
 

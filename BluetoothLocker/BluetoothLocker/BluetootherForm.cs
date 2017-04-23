@@ -1,7 +1,10 @@
 ﻿using InTheHand.Net.Sockets;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Windows.Forms;
+using System.Linq;
+using System.Security.Cryptography;
 
 namespace BluetoothLocker
 {
@@ -9,12 +12,15 @@ namespace BluetoothLocker
     {
         #region Private members
 
-        private readonly string _aesRandomKey = AesCipher.GenerateRandomKey();
-        private string _userNameEncrypted;
-        private string _userPassEncrypted;
+        private CipherMessage _userNameEncrypted;
+        private CipherMessage _userPassEncrypted;
+        private string _userPass;
         private bool _secured = false;
         private DevicesConnector _deviceConnector = new DevicesConnector(); //will be used for devices discovering, checking their presence
         private bool _isLocked = false;
+        private Encryptor _encryptor;
+        private Decryptor _decryptor;
+        private IPasswordStorage _pwdStorage;
 
         #endregion
 
@@ -25,6 +31,11 @@ namespace BluetoothLocker
             InitializeComponent();
             _deviceConnector.DiscoverComplete += deviceConnector_DiscoverComplete;
             _deviceConnector.DeviceWentOutOfRange += deviceConnector_DeviceWentOutOfRange;
+
+            //_pwdStorage = new LocalPasswordStorage(new RSACryptoServiceProvider(2048));
+            _pwdStorage = new WindowsKeyStorage(new RSACryptoServiceProvider(2048));
+            _encryptor = new Encryptor(_pwdStorage);
+            _decryptor = new Decryptor(_pwdStorage);
         }
 
         #endregion
@@ -78,7 +89,7 @@ namespace BluetoothLocker
 
         private bool ValidateCredentials(string name, string password)
         {
-            return AesCipher.EncryptText(name, _aesRandomKey) == _userNameEncrypted && AesCipher.EncryptText(password, _aesRandomKey) == _userPassEncrypted && DevicesConnector.IsDeviceInRange(SelectedDevice);
+            return _encryptor.EncryptText(name) == _userNameEncrypted && _encryptor.EncryptText(password) == _userPassEncrypted && DevicesConnector.IsDeviceInRange(SelectedDevice);
         }
 
         #endregion
@@ -147,8 +158,9 @@ namespace BluetoothLocker
                 return;
             }
 
-            _userNameEncrypted = AesCipher.EncryptText(cf.UserName, _aesRandomKey);
-            _userPassEncrypted = AesCipher.EncryptText(cf.UserPassword, _aesRandomKey);
+            _userPass = cf.UserPassword;
+            _userNameEncrypted = _encryptor.EncryptText(cf.UserName);
+            _userPassEncrypted = _encryptor.EncryptText(cf.UserPassword);
         }
 
         private void devicesDropDown_SelectedIndexChanged(object sender, EventArgs e)
@@ -157,5 +169,22 @@ namespace BluetoothLocker
         }
 
         #endregion
+
+        private void showInfoBtn_Click(object sender, EventArgs e)
+        {
+            var f = new DisplayPasswords() { PassInfo = PrepareData() };
+            f.ShowDialog();
+        }
+
+        private string PrepareData()
+        {
+            var s2 = string.Join(", ", _userPassEncrypted.Data.Select(b => b.ToString()).ToArray());
+            return string.Format("Password: {0}\r\nEncryptedPass: {1}\r\nDecryptedPass: {2}", _userPass, s2, _decryptor.DecryptText(_userPassEncrypted));
+        }
+
+        private void BluetootherForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _pwdStorage.Dispose();
+        }
     }
 }
