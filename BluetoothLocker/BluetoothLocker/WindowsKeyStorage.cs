@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BluetoothLocker
 {
-    class WindowsKeyStorage : IPasswordStorage
+    class WindowsKeyStorage : IPasswordStorage, IDisposable
     {
         private int _keyLength = 2048;
         private string _containerName = "_my_very_unique_key_";
