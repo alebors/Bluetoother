@@ -10,15 +10,20 @@ namespace BluetoothLocker
     class WindowsKeyStorage : IPasswordStorage, IDisposable
     {
         private int _keyLength = 2048;
-        private string _containerName = "_my_very_unique_key_";
+        private string _containerName;
 
         public WindowsKeyStorage(RSACryptoServiceProvider rSACryptoServiceProvider)
         {
+            byte[] random = new Byte[16];
+            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+            rng.GetBytes(random);
+            _containerName = Convert.ToBase64String(random); // the string key for storing/retreiving private key form windows key storage
+
             PublicKey = rSACryptoServiceProvider.ExportParameters(false);
             PrivateKey = rSACryptoServiceProvider.ExportParameters(true);
         }
         
-        public RSAParameters PublicKey { get; set; }
+        public RSAParameters PublicKey { get; set; }  //public key was not requested to be stored in windows storage
 
         public RSAParameters PrivateKey 
         {

@@ -20,18 +20,5 @@ namespace BluetoothLocker
         public byte[] Key { get; set; }
         public byte[] IV { get; set; }
         public byte[] Salt { get; set; }
-
-        public override bool Equals(object obj)
-        {
-            var other = obj as CipherMessage;
-            if (other == null)
-                return false;
-            return Data.SequenceEqual(other.Data);
-        }
-        public override int GetHashCode()
-        {
-            // just to avoid warning because equals already overridden
-            return base.GetHashCode();
-        }
     }
 }

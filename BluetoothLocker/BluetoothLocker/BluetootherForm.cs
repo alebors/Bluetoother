@@ -89,7 +89,7 @@ namespace BluetoothLocker
 
         private bool ValidateCredentials(string name, string password)
         {
-            return _encryptor.EncryptText(name) == _userNameEncrypted && _encryptor.EncryptText(password) == _userPassEncrypted && DevicesConnector.IsDeviceInRange(SelectedDevice);
+            return _decryptor.DecryptText(_userNameEncrypted) == name && _decryptor.DecryptText(_userPassEncrypted) == password && DevicesConnector.IsDeviceInRange(SelectedDevice);
         }
 
         #endregion
